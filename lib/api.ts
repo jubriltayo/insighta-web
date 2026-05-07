@@ -176,4 +176,33 @@ export const profilesApi = {
         by_country: { country_name: string; count: number }[];
       };
     }>("/api/profiles/stats"),
+
+  importCsv: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch(`${API_URL}/api/profiles/import`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "X-API-Version": "1" },
+      body: formData,
+    });
+
+    if (res.status === 401) {
+      window.location.href = "/login";
+      throw new ApiError(401, "Unauthenticated");
+    }
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new ApiError(res.status, data?.message ?? "Import failed");
+    }
+    return data as {
+      status: string;
+      total_rows: number;
+      inserted: number;
+      skipped: number;
+      reasons: Record<string, number>;
+    };
+  },
 };

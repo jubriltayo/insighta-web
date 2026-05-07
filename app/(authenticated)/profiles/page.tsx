@@ -17,6 +17,7 @@ import { toast } from "@/components/Toast";
 import {
   Users,
   Download,
+  Upload,
   Plus,
   Trash2,
   Eye,
@@ -170,6 +171,12 @@ export default function ProfilesPage() {
               New Profile
             </Link>
           )}
+          {user?.role === "admin" && (
+            <Link href="/profiles/import" className="btn btn-ghost">
+              <Upload className="w-4 h-4" />
+              Import CSV
+            </Link>
+          )}
         </div>
       </div>
 
@@ -283,11 +290,10 @@ export default function ProfilesPage() {
               <button
                 key={n}
                 onClick={() => handleFilter("limit", n)}
-                className={`px-2 py-1 rounded text-xs font-mono transition-colors ${
-                  filters.limit === n
+                className={`px-2 py-1 rounded text-xs font-mono transition-colors ${filters.limit === n
                     ? "bg-accent/20 text-accent"
                     : "text-slate-light hover:text-cream"
-                }`}
+                  }`}
               >
                 {n}
               </button>
@@ -401,13 +407,12 @@ export default function ProfilesPage() {
                     <td className="font-medium">{profile.name}</td>
                     <td>
                       <span
-                        className={`badge ${
-                          profile.gender === "male"
+                        className={`badge ${profile.gender === "male"
                             ? "badge-blue"
                             : profile.gender === "female"
-                            ? "badge-accent"
-                            : "badge-slate"
-                        }`}
+                              ? "badge-accent"
+                              : "badge-slate"
+                          }`}
                       >
                         {profile.gender}
                       </span>
@@ -418,13 +423,12 @@ export default function ProfilesPage() {
                     <td className="font-mono text-sm">{profile.age}</td>
                     <td>
                       <span
-                        className={`badge ${
-                          profile.age_group === "adult"
+                        className={`badge ${profile.age_group === "adult"
                             ? "badge-green"
                             : profile.age_group === "senior"
-                            ? "badge-slate"
-                            : "badge-amber"
-                        }`}
+                              ? "badge-slate"
+                              : "badge-amber"
+                          }`}
                       >
                         {profile.age_group}
                       </span>
